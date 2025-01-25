@@ -56,6 +56,7 @@ const fetchUpdates = () => {
     for (const repo of config.repos) {
         log(`Updating repo "${repo.name}" at directory ${repo.path}`)
         runCommand(`cd .. && cd ${repo.path} && git stash && git pull`)
+        runCommand(`cd .. && cd ${repo.path} && npm i`)
         if (repo.startCmd) {
             spawnDetached(repo.startCmd, repo.workingDir)
         }
