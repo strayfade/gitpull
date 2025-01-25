@@ -40,7 +40,7 @@ const spawnDetached = (command, workingDir) => {
     const working = path.join(__dirname, workingDir)
     const child = spawn(command, args, {
         detached: true,
-        stdio: 'ignore',
+        stdio: ['ignore', 'inherit', 'inherit'],
         cwd: working
     });
 
