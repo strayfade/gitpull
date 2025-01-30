@@ -1,9 +1,10 @@
 const { config } = require('./config')
+const checkInternetConnected = require('check-internet-connected');
 const { execSync, spawn } = require('child_process');
 const { log, logColors } = require('./log')
 const path = require('path')
 
-const runCommand = (command) => {
+const runCommand = async (command) => {
     try {
         const output = execSync(command, { encoding: 'utf-8' });
         return output.trim();
@@ -12,8 +13,8 @@ const runCommand = (command) => {
     }
 }
 
-const killOtherNodeInstances = () => {
-    const instances = runCommand("ps -eo pid,comm | grep node")
+const killOtherNodeInstances = async () => {
+    const instances = await runCommand("ps -eo pid,comm | grep node")
     const processes = instances.split("\n").filter(line => line.trim() !== "");
     processes.forEach(line => {
         const parts = line.trim().split(/\s+/);
@@ -47,22 +48,31 @@ const spawnDetached = (command, workingDir) => {
     child.unref();
 }
 
-const fetchUpdates = () => {
+const fetchUpdates = async () => {
     log("Starting update cycle")
 
-    killOtherNodeInstances();
-    log("Killed any other node instances")
+    checkInternetConnected({
+        timeout: 5000,
+        retries: 5,
+        domain: 'https://google.com',
+    }).then(async () => {
+        log(`Verified internet connection!`, logColors.Success)
+        await killOtherNodeInstances();
+        log("Killed any other node instances")
 
-    for (const repo of config.repos) {
-        log(`Updating repo "${repo.name}" at directory ${repo.path}`)
-        runCommand(`cd .. && cd ${repo.path} && git stash && git pull`)
-        runCommand(`cd .. && cd ${repo.path} && npm i`)
-        if (repo.startCmd) {
-            spawnDetached(repo.startCmd, repo.workingDir)
+        for (const repo of config.repos) {
+            log(`Updating repo "${repo.name}" at directory ${repo.path}`)
+            runCommand(`cd .. && cd ${repo.path} && git stash && git pull`)
+            runCommand(`cd .. && cd ${repo.path} && npm i`)
+            if (repo.startCmd) {
+                spawnDetached(repo.startCmd, repo.workingDir)
+            }
+            log(`Finished updating "${repo.name}"`, logColors.Success)
         }
-        log(`Finished updating "${repo.name}"`, logColors.Success)
-    }
-    log(`Finished update cycle`, logColors.SuccessVisible)
+        log(`Finished update cycle`, logColors.SuccessVisible)
+    }).catch((error) => {
+        log(`Failed to connect to the internet!`, logColors.Error)
+    })
 }
 
 log("Started gitpull!")

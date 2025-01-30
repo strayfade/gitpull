@@ -1,5 +1,5 @@
 const config = {
-    ttl: 2,
+    ttl: 3,
     repos: [
         {
             name: "website",
