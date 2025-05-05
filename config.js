@@ -11,9 +11,9 @@ const config = {
         },
         {
             repo: "strayfade/cs120-finalproject",
-            name: "cs120-finalproject",
-            path: "javafx-app",
-            workingDir: "../cs120-finalproject",
+            name: "cs120-finalproject/webserver",
+            path: "cs120-finalproject/webserver",
+            workingDir: "../cs120-finalproject/webserver",
             startCmd: "",
             updateCmd: "git stash && git pull"
         },
