@@ -13,6 +13,18 @@ const runCommand = async (command) => {
     }
 }
 
+const directoryExists = async (dirPath) => {
+    try {
+        const stats = await fs.stat(dirPath);
+        return stats.isDirectory();
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            return false;
+        }
+        throw error;
+    }
+}
+
 const killOtherNodeInstances = async () => {
     const instances = await runCommand("ps -eo pid,comm | grep node")
     const processes = instances.split("\n").filter(line => line.trim() !== "");
@@ -61,6 +73,9 @@ const fetchUpdates = async () => {
         log("Killed any other node instances")
 
         for (const repo of config.repos) {
+            if (!(await directoryExists(repo.workingDir))) {
+                runCommand(`cd .. && git clone https://github.com/${repo.repo}.git`)
+            }
             log(`Updating repo "${repo.name}" at directory ${repo.path}`)
             runCommand(`cd .. && cd ${repo.path} && git stash && git pull`)
             runCommand(`cd .. && cd ${repo.path} && npm i`)

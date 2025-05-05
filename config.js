@@ -2,6 +2,7 @@ const config = {
     ttl: 3,
     repos: [
         {
+            repo: "strayfade/website",
             name: "website",
             path: "website",
             workingDir: "../website",
@@ -9,6 +10,15 @@ const config = {
             updateCmd: "git stash && git pull"
         },
         {
+            repo: "strayfade/cs120-finalproject",
+            name: "cs120-finalproject",
+            path: "javafx-app",
+            workingDir: "../cs120-finalproject",
+            startCmd: "",
+            updateCmd: "git stash && git pull"
+        },
+        {
+            repo: "xauthenticate/web",
             name: "xauth",
             path: "web",
             workingDir: "../web",
@@ -16,6 +26,7 @@ const config = {
             updateCmd: "git stash && git pull"
         },
         {
+            repo: "strayfade/landing",
             name: "landing",
             path: "landing",
             workingDir: "../landing",
@@ -23,6 +34,7 @@ const config = {
             updateCmd: "git stash && git pull"
         },
         {
+            repo: "strayfade/preflight",
             name: "preflight",
             path: "preflight",
             workingDir: "../preflight",
