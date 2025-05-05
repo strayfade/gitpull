@@ -63,31 +63,22 @@ const spawnDetached = (command, workingDir) => {
 const fetchUpdates = async () => {
     log("Starting update cycle")
 
-    checkInternetConnected({
-        timeout: 5000,
-        retries: 5,
-        domain: 'https://google.com',
-    }).then(async () => {
-        log(`Verified internet connection!`, logColors.Success)
-        await killOtherNodeInstances();
-        log("Killed any other node instances")
+    await killOtherNodeInstances();
+    log("Killed any other node instances")
 
-        for (const repo of config.repos) {
-            if (!(await directoryExists(repo.workingDir))) {
-                runCommand(`cd .. && git clone https://github.com/${repo.repo}.git`)
-            }
-            log(`Updating repo "${repo.name}" at directory ${repo.path}`)
-            runCommand(`cd .. && cd ${repo.path} && git stash && git pull`)
-            runCommand(`cd .. && cd ${repo.path} && npm i`)
-            if (repo.startCmd) {
-                spawnDetached(repo.startCmd, repo.workingDir)
-            }
-            log(`Finished updating "${repo.name}"`, logColors.Success)
+    for (const repo of config.repos) {
+        if (!(await directoryExists(repo.workingDir))) {
+            runCommand(`cd .. && git clone https://github.com/${repo.repo}.git`)
         }
-        log(`Finished update cycle`, logColors.SuccessVisible)
-    }).catch((error) => {
-        log(`Failed to connect to the internet!`, logColors.Error)
-    })
+        log(`Updating repo "${repo.name}" at directory ${repo.path}`)
+        runCommand(`cd .. && cd ${repo.path} && git stash && git pull`)
+        runCommand(`cd .. && cd ${repo.path} && npm i`)
+        if (repo.startCmd) {
+            spawnDetached(repo.startCmd, repo.workingDir)
+        }
+        log(`Finished updating "${repo.name}"`, logColors.Success)
+    }
+    log(`Finished update cycle`, logColors.SuccessVisible)
 }
 
 log("Started gitpull!")
