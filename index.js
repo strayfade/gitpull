@@ -1,8 +1,8 @@
 const { config } = require('./config')
-const checkInternetConnected = require('check-internet-connected');
 const { execSync, spawn } = require('child_process');
 const { log, logColors } = require('./log')
 const path = require('path')
+const fs = require('fs').promises
 
 const runCommand = async (command) => {
     try {
