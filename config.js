@@ -18,6 +18,14 @@ const config = {
             updateCmd: "git stash && git pull"
         },
         {
+            repo: "xauthenticate/kick-webdriver",
+            name: "xauthenticate/kick-webdriver",
+            path: "xauthenticate/kick-webdriver",
+            workingDir: "../xauthenticate/kick-webdriver",
+            startCmd: "",
+            updateCmd: "git stash && git pull"
+        },
+        {
             repo: "xauthenticate/web",
             name: "xauth",
             path: "web",
