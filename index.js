@@ -6,6 +6,7 @@ const fs = require('fs').promises
 require('dotenv').config()
 
 const runCommand = async (command) => {
+    console.log(command)
     try {
         const output = execSync(command, { encoding: 'utf-8' });
         return output.trim();
@@ -61,7 +62,7 @@ const spawnDetached = (command, workingDir) => {
     child.unref();
 }
 
-const git = `git -c http.extraheader="AUTHORIZATION: bearer ${process.env.GITHUB_TOKEN}`
+const git = `git -c http.extraheader="AUTHORIZATION: bearer ${process.env.GITHUB_TOKEN}"`
 
 const fetchUpdates = async () => {
     log("Starting update cycle")
@@ -71,13 +72,15 @@ const fetchUpdates = async () => {
 
     for (const repo of config.repos) {
         if (!(await directoryExists(repo.workingDir))) {
-            runCommand(`cd .. && git clone https://github.com/${repo.repo}.git`)
+            runCommand(`cd .. && git clone https://${"strayfade"}:${process.env.GITHUB_TOKEN}@github.com/${repo.repo}.git`)
         }
         log(`Updating repo "${repo.name}" at directory ${repo.path}`)
         try {
             //runCommand(`cd .. && cd ${repo.path} && ${git} stash && ${git} pull`)
             //runCommand(`cd .. && cd ${repo.path} && npm i`)
             if (repo.startCmd) {
+                if (!require('os').platform() === "darwin") // macos returns EACCESS when running npm i on newer systems >:(
+                    spawnDetached(repo.updateCmd, repo.workingDir)
                 spawnDetached(repo.startCmd, repo.workingDir)
             }
             log(`Finished updating "${repo.name}"`, logColors.Success)

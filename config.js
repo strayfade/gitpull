@@ -6,6 +6,7 @@ const config = {
             name: "website",
             path: "website",
             workingDir: "../website",
+            updateCmd: "npm i",
             startCmd: "node Server 3000",
         },
         {
@@ -13,6 +14,7 @@ const config = {
             name: "netsocket",
             path: "netsocket",
             workingDir: "../netsocket",
+            updateCmd: "npm i",
             startCmd: "npm run develop",
         },
         {
@@ -20,6 +22,7 @@ const config = {
             name: "xauth",
             path: "web",
             workingDir: "../web",
+            updateCmd: "npm i",
             startCmd: "node App",
         },
         {
@@ -27,6 +30,7 @@ const config = {
             name: "landing",
             path: "landing",
             workingDir: "../landing",
+            updateCmd: "npm i",
             startCmd: "node index",
         },
     ]
