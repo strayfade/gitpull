@@ -6,49 +6,29 @@ const config = {
             name: "website",
             path: "website",
             workingDir: "../website",
-            startCmd: "",
-            updateCmd: "git stash && git pull"
+            startCmd: "node Server 3000",
         },
         {
-            repo: "strayfade/cs120-finalproject",
-            name: "cs120-finalproject/webserver",
-            path: "cs120-finalproject/webserver",
-            workingDir: "../cs120-finalproject/webserver",
-            startCmd: "",
-            updateCmd: "git stash && git pull"
-        },
-        {
-            repo: "xauthenticate/kick-webdriver",
-            name: "kick-webdriver",
-            path: "kick-webdriver",
-            workingDir: "../kick-webdriver",
-            startCmd: "",
-            updateCmd: "git stash && git pull"
+            repo: "strayfade/netsocket",
+            name: "netsocket",
+            path: "netsocket",
+            workingDir: "../netsocket",
+            startCmd: "npm run develop",
         },
         {
             repo: "xauthenticate/web",
             name: "xauth",
             path: "web",
             workingDir: "../web",
-            startCmd: "",
-            updateCmd: "git stash && git pull"
+            startCmd: "node App",
         },
         {
             repo: "strayfade/landing",
             name: "landing",
             path: "landing",
             workingDir: "../landing",
-            startCmd: "",
-            updateCmd: "git stash && git pull"
+            startCmd: "node index",
         },
-        {
-            repo: "strayfade/preflight",
-            name: "preflight",
-            path: "preflight",
-            workingDir: "../preflight",
-            startCmd: "npm run develop",
-            updateCmd: "git stash && git pull"
-        }
     ]
 }
 

@@ -3,6 +3,7 @@ const { execSync, spawn } = require('child_process');
 const { log, logColors } = require('./log')
 const path = require('path')
 const fs = require('fs').promises
+require('dotenv').config()
 
 const runCommand = async (command) => {
     try {
@@ -60,6 +61,8 @@ const spawnDetached = (command, workingDir) => {
     child.unref();
 }
 
+const git = `git -c http.extraheader="AUTHORIZATION: bearer ${process.env.GITHUB_TOKEN}`
+
 const fetchUpdates = async () => {
     log("Starting update cycle")
 
@@ -71,16 +74,21 @@ const fetchUpdates = async () => {
             runCommand(`cd .. && git clone https://github.com/${repo.repo}.git`)
         }
         log(`Updating repo "${repo.name}" at directory ${repo.path}`)
-        runCommand(`cd .. && cd ${repo.path} && git stash && git pull`)
-        runCommand(`cd .. && cd ${repo.path} && npm i`)
-        if (repo.startCmd) {
-            spawnDetached(repo.startCmd, repo.workingDir)
+        try {
+            //runCommand(`cd .. && cd ${repo.path} && ${git} stash && ${git} pull`)
+            //runCommand(`cd .. && cd ${repo.path} && npm i`)
+            if (repo.startCmd) {
+                spawnDetached(repo.startCmd, repo.workingDir)
+            }
+            log(`Finished updating "${repo.name}"`, logColors.Success)
         }
-        log(`Finished updating "${repo.name}"`, logColors.Success)
+        catch (err) {
+            log(`Failed updating "${repo.name}" with error "${err}"`, logColors.ErrorVisible)
+        }
     }
     log(`Finished update cycle`, logColors.SuccessVisible)
 }
 
-log("Started gitpull!")
+log(`Started gitpull with Github token "${process.env.GITHUB_TOKEN}"`)
 setInterval(fetchUpdates, 1000 * 60 * 60 * config.ttl)
 fetchUpdates()
