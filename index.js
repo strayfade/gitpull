@@ -4,6 +4,7 @@ const { log, logColors } = require('./log')
 const path = require('path')
 const fs = require('fs').promises
 require('dotenv').config()
+const readline = require("readline");
 
 const runCommand = async (command) => {
     console.log(command)
@@ -45,7 +46,7 @@ const killOtherNodeInstances = async () => {
     });
 }
 
-const spawnDetached = (command, workingDir) => {
+const spawnDetached = (command, workingDir, containerName = " ") => {
     let args = [];
 
     args = command.split(" ")
@@ -55,8 +56,19 @@ const spawnDetached = (command, workingDir) => {
     const working = path.join(__dirname, workingDir)
     const child = spawn(command, args, {
         detached: true,
-        stdio: ['ignore', 'inherit', 'inherit'],
+        stdio: ['ignore', 'pipe', 'pipe'],
         cwd: working
+    });
+
+    const prefix = `[${containerName}]`
+    const rlOut = readline.createInterface({ input: child.stdout });
+    const rlErr = readline.createInterface({ input: child.stderr });
+    rlOut.on("line", line => {
+        console.log(`${prefix}${line}`);
+    });
+
+    rlErr.on("line", line => {
+        console.error(`${prefix}${line}`);
     });
 
     child.unref();
@@ -80,8 +92,8 @@ const fetchUpdates = async () => {
             //runCommand(`cd .. && cd ${repo.path} && npm i`)
             if (repo.startCmd) {
                 if (!require('os').platform() === "darwin") // macos returns EACCESS when running npm i on newer systems >:(
-                    spawnDetached(repo.updateCmd, repo.workingDir)
-                spawnDetached(repo.startCmd, repo.workingDir)
+                    spawnDetached(repo.updateCmd, repo.workingDir, repo.name)
+                spawnDetached(repo.startCmd, repo.workingDir, repo.name)
             }
             log(`Finished updating "${repo.name}"`, logColors.Success)
         }
