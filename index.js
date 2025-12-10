@@ -60,7 +60,7 @@ const spawnDetached = (command, workingDir, containerName = " ") => {
         cwd: working
     });
 
-    const prefix = `[${containerName}]`
+    const prefix = `[${containerName}] `
     const rlOut = readline.createInterface({ input: child.stdout });
     const rlErr = readline.createInterface({ input: child.stderr });
     rlOut.on("line", line => {
