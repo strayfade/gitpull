@@ -74,8 +74,6 @@ const spawnDetached = (command, workingDir, containerName = " ") => {
     child.unref();
 }
 
-const git = `git -c http.extraheader="AUTHORIZATION: bearer ${process.env.GITHUB_TOKEN}"`
-
 const fetchUpdates = async () => {
     log("Starting update cycle")
 
@@ -91,7 +89,7 @@ const fetchUpdates = async () => {
             runCommand(`cd .. && cd ${repo.path} && git stash && git pull`)
             runCommand(`cd .. && cd ${repo.path} && npm i`)
             if (repo.startCmd) {
-                if (!require('os').platform() === "darwin") // macos returns EACCESS when running npm i on newer systems >:(
+                if (!(require('os').platform() === "darwin")) // macos returns EACCESS when running npm i on newer systems >:(
                     spawnDetached(repo.updateCmd, repo.workingDir, repo.name)
                 spawnDetached(repo.startCmd, repo.workingDir, repo.name)
             }

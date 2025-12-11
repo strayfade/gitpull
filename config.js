@@ -18,14 +18,6 @@ const config = {
             startCmd: "npm run develop",
         },
         {
-            repo: "xauthenticate/web",
-            name: "xauth",
-            path: "web",
-            workingDir: "../web",
-            updateCmd: "npm i",
-            startCmd: "node App",
-        },
-        {
             repo: "strayfade/landing",
             name: "landing",
             path: "landing",
