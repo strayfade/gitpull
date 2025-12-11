@@ -88,7 +88,7 @@ const fetchUpdates = async () => {
         }
         log(`Updating repo "${repo.name}" at directory ${repo.path}`)
         try {
-            runCommand(`cd .. && cd ${repo.path} && ${git} stash && ${git} pull`)
+            runCommand(`cd .. && cd ${repo.path} && git stash && git pull`)
             runCommand(`cd .. && cd ${repo.path} && npm i`)
             if (repo.startCmd) {
                 if (!require('os').platform() === "darwin") // macos returns EACCESS when running npm i on newer systems >:(
