@@ -82,10 +82,12 @@ const fetchUpdates = async () => {
 
     for (const repo of config.repos) {
         if (!(await directoryExists(repo.workingDir))) {
-            runCommand(`cd .. && git clone https://${"strayfade"}:${process.env.GITHUB_TOKEN}@github.com/${repo.repo}.git`)
+            runCommand(`cd .. && git clone ${repo.ssh}`)
         }
         log(`Updating repo "${repo.name}" at directory ${repo.path}`)
         try {
+            runCommand(`cd .. && cd ${repo.path} && git remote set-url origin ${repo.ssh}`)
+            runCommand(`cd .. && cd ${repo.path} && git config --local credential.helper store`)
             runCommand(`cd .. && cd ${repo.path} && git stash && git pull`)
             runCommand(`cd .. && cd ${repo.path} && npm i`)
             if (repo.startCmd) {

@@ -8,6 +8,7 @@ const config = {
             workingDir: "../website",
             updateCmd: "npm i",
             startCmd: "node Server 3000",
+            ssh: "git@github.com:strayfade/website.git"
         },
         {
             repo: "strayfade/netsocket",
@@ -16,6 +17,16 @@ const config = {
             workingDir: "../netsocket",
             updateCmd: "npm i",
             startCmd: "npm run develop",
+            ssh: "git@github.com:strayfade/netsocket.git"
+        },
+        {
+            repo: "xauthenticate/web",
+            name: "xauth",
+            path: "web",
+            workingDir: "../web",
+            updateCmd: "npm i",
+            startCmd: "node App",
+            ssh: "git@github.com:xauthenticate/web.git"
         },
         {
             repo: "strayfade/landing",
@@ -24,6 +35,7 @@ const config = {
             workingDir: "../landing",
             updateCmd: "npm i",
             startCmd: "node index",
+            ssh: "git@github.com:strayfade/landing.git"
         },
     ]
 }
