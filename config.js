@@ -6,7 +6,7 @@ const config = {
             name: "website",
             path: "website",
             workingDir: "../website",
-            updateCmd: "npm i",
+            updateCmd: "npm install",
             startCmd: "node Server 3000",
             ssh: "git@github.com:strayfade/website.git"
         },
@@ -15,7 +15,7 @@ const config = {
             name: "netsocket",
             path: "netsocket",
             workingDir: "../netsocket",
-            updateCmd: "npm i",
+            updateCmd: "npm install --omit=dev",
             startCmd: "npm run develop",
             ssh: "git@github.com:strayfade/netsocket.git"
         },
@@ -24,7 +24,7 @@ const config = {
             name: "xauth",
             path: "web",
             workingDir: "../web",
-            updateCmd: "npm i",
+            updateCmd: "npm install",
             startCmd: "node App",
             ssh: "git@github.com:xauthenticate/web.git"
         },
@@ -33,7 +33,7 @@ const config = {
             name: "landing",
             path: "landing",
             workingDir: "../landing",
-            updateCmd: "npm i",
+            updateCmd: "npm install",
             startCmd: "node index",
             ssh: "git@github.com:strayfade/landing.git"
         },
