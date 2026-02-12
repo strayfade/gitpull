@@ -7,7 +7,7 @@ const config = {
             path: "website",
             workingDir: "../website",
             updateCmd: "npm install",
-            startCmd: "node Server 3000",
+            startCmd: "npm run develop",
             ssh: "git@github.com:strayfade/website.git"
         },
         {
