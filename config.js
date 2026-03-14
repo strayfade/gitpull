@@ -20,13 +20,13 @@ const config = {
             ssh: "git@github.com:strayfade/netsocket.git"
         },
         {
-            repo: "xauthenticate/web",
+            repo: "xauthenticate/frontend",
             name: "xauth",
-            path: "web",
-            workingDir: "../web",
+            path: "frontend",
+            workingDir: "../frontend",
             updateCmd: "npm install",
-            startCmd: "node App",
-            ssh: "git@github.com:xauthenticate/web.git"
+            startCmd: "npm run develop",
+            ssh: "git@github.com:xauthenticate/frontend.git"
         },
         {
             repo: "strayfade/landing",
