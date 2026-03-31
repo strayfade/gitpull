@@ -28,15 +28,6 @@ const config = {
             startCmd: "npm run develop",
             ssh: "git@github.com:xauthenticate/frontend.git"
         },
-        {
-            repo: "strayfade/landing",
-            name: "landing",
-            path: "landing",
-            workingDir: "../landing",
-            updateCmd: "npm install",
-            startCmd: "node index",
-            ssh: "git@github.com:strayfade/landing.git"
-        },
     ]
 }
 
