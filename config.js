@@ -10,15 +10,15 @@ const config = {
             startCmd: "npm run develop",
             ssh: "git@github.com:strayfade/website.git"
         },
-        {
-            repo: "strayfade/netsocket",
-            name: "netsocket",
-            path: "netsocket",
-            workingDir: "../netsocket",
-            updateCmd: "npm install --omit=dev",
-            startCmd: "npm run develop",
-            ssh: "git@github.com:strayfade/netsocket.git"
-        },
+        //{   // NETSOCKET IS NOW MANAGED BY DOCKER! :party hats:
+        //    repo: "strayfade/netsocket",
+        //    name: "netsocket",
+        //    path: "netsocket",
+        //    workingDir: "../netsocket",
+        //    updateCmd: "npm install --omit=dev",
+        //    startCmd: "npm run develop",
+        //    ssh: "git@github.com:strayfade/netsocket.git"
+        //},
         {
             repo: "xauthenticate/frontend",
             name: "xauth",
